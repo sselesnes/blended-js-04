@@ -56,13 +56,13 @@ manipulationElement.style.backgroundColor = "blue";
 
 // 15 - знайти в документі заголовок, який має class="completed" і виведи його в консоль;
 const completedElement = document.querySelector(`h3.completed`);
-console.log(completedElement);
+console.dir(completedElement);
 
-// const headlines = [1, 2, 3, 4, 5, 6];
-// const completedElementFiltered = headlines
-//   .map(h => document.querySelector(`h${h}.completed`) || null)
-//   .filter(element => element !== null);
-// console.log(completedElementFiltered);
+const headlines = [1, 2, 3, 4, 5, 6];
+const completedElementFiltered = headlines
+  .map(h => document.querySelector(`h${h}.completed`)) // || null)
+  .filter(element => element !== null);
+console.dir(completedElementFiltered[0]);
 
 // 16 - видали елемент li в якому знаходиться заголовок, який має class="completed"
 completedElement.closest("li").remove();
@@ -75,7 +75,6 @@ const headline1 = document.querySelector("h1");
 const newParagraph = document.createElement("p");
 newParagraph.textContent = "Об'єктна модель документа (Document Object Model)";
 headline1.insertAdjacentElement("afterend", newParagraph);
-
 // headline1.after(newParagraph);
 
 // 18 - додай новий елемент списку у кінець списка, його заголовок це - "Властивість innerHTML" а опис (р) - "Ще один спосіб створити DOM-елементи і помістити їх в дерево - це використовувати рядки з тегами і дозволити браузеру зробити всю важку роботу". тобто, потрібно створити елемент LI потім наповнити H3 та P і готову LI закинути у кінець списку
@@ -99,8 +98,8 @@ const newLiElement = `<li data-topic="${topic}"><h3>${title}</h3><p>${descriptio
 listElement.insertAdjacentHTML("beforeend", newLiElement);
 
 // 20 - очисти список
-listElement.innerHTML = "";
-// listElement.replaceChildren();
+// listElement.innerHTML = "";
+listElement.replaceChildren();
 // listElement.querySelectorAll("*").forEach(child => child.remove()); // погано для великих списків
 // Array.from(listElement.children).forEach(child => child.remove()); // погано для великих списків
 
