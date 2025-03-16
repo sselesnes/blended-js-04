@@ -13,13 +13,12 @@ console.log(listElement);
 
 // 4 - отримай всі елементи з атрибутом data-topic і виведи їх в консоль;
 const topicElements = document.querySelectorAll(`[data-topic]`);
-console.log(topicElements);
+console.dir(topicElements);
 
 // 5 - отримай перший елемент з списку всіх елементів з атрибутом data-topic і виведи його в консоль;
 console.log(topicElements.item(0));
 console.log(topicElements[0]);
-
-// const topicElement0 = document.querySelector(`[data-topic]`);
+console.log(document.querySelector(`[data-topic]`));
 
 // 6 - отримай останній елемент з списку всіх елементів з атрибутом data-topic і виведи його в консоль;
 console.log(topicElements.item(topicElements.length - 1));
@@ -31,7 +30,7 @@ console.log(h1Neighbor);
 
 // 8 - по тегу h3 знайти всі заголовки та виведи їх у консоль;
 const h3Elements = document.querySelectorAll("h3");
-console.log(h3Elements);
+console.dir(h3Elements);
 
 // 9 - для кожного елмента h3 додай class="active", який змінить колір заголовка на червоний колір
 h3Elements.forEach(element => element.classList.add("active"));
@@ -130,15 +129,19 @@ numbers.innerHTML = boxesHTML.join("");
 // 1 - При події `input`, якщо користувач ввів в поле більше 6 символів то додати клас `success`. Якщо ж символів менше аніж 6, то клас `error`
 const formEl = document.querySelector(".js-contact-form");
 const inputEl = document.querySelector(".js-username-input");
+const spanEl = document.querySelector(".js-username-output");
 
 formEl.addEventListener("input", e => {
   const input = e.target;
+  if (input.type !== "text") return;
   if (input.value.length >= 6) {
     input.classList.add("success");
     input.classList.remove("error");
+    spanEl.textContent = input.value;
   } else {
     input.classList.add("error");
     input.classList.remove("success");
+    spanEl.textContent = `Anonymous`;
   }
 });
 
@@ -152,6 +155,13 @@ inputEl.addEventListener("focus", () => {
 });
 
 // 3 - При події `blur` зроби перевірку на пустоту поля інпута, якщо ж поле пусте, то зроби `outline` => `'3px solid red'`, якщо при фокусі поле непусте, то `outline` => `'3px solid lime'`
+inputEl.addEventListener("blur", () => {
+  if (inputEl.value.trim() === "") {
+    inputEl.style.outline = "3px solid red";
+  } else {
+    inputEl.style.outline = "3px solid lime";
+  }
+});
 
 // 4 - При події `submit`. Відміни поведінку браузера по змовчуванню. Дістань данні з інпуту і чек боксу, зроби перевірку, що інпут не порожній, також, що нажатий чек бокс у положення true, якщо користувач все виконав вірно, збери данні (userName) у обьект і виведи у консоль. У разі, якщо користувач не виконав одну із умов, виведи повідомлення. Також реалізуй додавання ім`я користувача у span, замість слова "Anonymous". Якщо користувач ввів ім`я, а потім видали, зроби так, щоб на місце повернулось дефолтне знаяення "Anonymous". При відправці форми, очисти інпут, верни чек бокс у положення false, верни дефолтне значення "Anonymous" у span.
 
@@ -168,14 +178,37 @@ formEl.addEventListener("submit", e => {
     alert("You need accept!");
     return;
   }
-  // spanEl.textContent = inputValue;
+
   const data = { userName: inputValue };
   console.log(data);
   formEl.reset();
   spanEl.textContent = "Anonymous";
+  userName.style.outline = "none";
+  accept.style.outline = "none";
 });
 
 /// Завдання 4
 // Використовуй шаблон розмітки з файлу html та напиши наступний функціонал:
 // При кліку на кнопку "Зменшити" квадрат стає меньшим на 20 пікселів,
 // При кліку на кнопку "Збільшити" - квадрат стає більшим на 20 пікселів.
+
+// 1. Отримай посилання на кнопки і квадрат
+const decreaseBtn = document.querySelector("#decrease");
+const increaseBtn = document.querySelector("#increase");
+const box = document.querySelector(".box");
+
+decreaseBtn.addEventListener("click", () => {
+  const currentWidth = parseFloat(getComputedStyle(box).width);
+  const currentHeight = parseFloat(getComputedStyle(box).height);
+  box.style.width = `${currentWidth - 20}px`;
+  box.style.height = `${currentHeight - 20}px`;
+  decreaseBtn.scrollIntoView({ behavior: "smooth", block: "center" });
+});
+
+increaseBtn.addEventListener("click", () => {
+  const currentWidth = parseFloat(getComputedStyle(box).width);
+  const currentHeight = parseFloat(getComputedStyle(box).height);
+  box.style.width = `${currentWidth + 20}px`;
+  box.style.height = `${currentHeight + 20}px`;
+  increaseBtn.scrollIntoView({ behavior: "smooth", block: "center" });
+});
